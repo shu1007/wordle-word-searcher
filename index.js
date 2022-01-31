@@ -18,11 +18,19 @@ if (yellows && !/^[a-z]{1,5}$/.test(yellows)) {
     console.error('Invalid string.')
     exit(1)
 }
+const blacks = readlineSync.question('Enter the black letters(e.g. abc)> ')
+if (blacks && !/^[a-z]+$/.test(blacks)) {
+    console.error('Invalid string.')
+    exit(1)
+}
 
 const greenPattern = !greens || greens == '.....' ? '' : `(?=${greens})`
 const yellowPatterns = yellows.split('').map((w) => `(?=.*${w})`)
+const blackPatterns = blacks.split('').map((w) => `(?!.*${w})`)
 const pattern = new RegExp(
-    `\\n${greenPattern}${yellowPatterns.join('')}.....\\n`,
+    `\\n${greenPattern}${yellowPatterns.join('')}${blackPatterns.join(
+        ''
+    )}.....\\n`,
     'g'
 )
 console.log()
