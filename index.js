@@ -68,6 +68,12 @@ while (true) {
     )
     console.log()
     const result = searchWord(pattern)
-
-    result ? result.forEach((w) => console.log(w)) : console.log('No result.')
+    if (result) {
+        console.log(`result count: ${result.length}`)
+        result.slice(0, 100).forEach((w, i) => console.log(`${i + 1}. ${w}`))
+        if (result.length > 100) console.log('...')
+    } else {
+        console.log('No result.')
+    }
+    console.log()
 }
