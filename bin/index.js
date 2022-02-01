@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict'
+
 const fs = require('fs')
 
 const data = fs.readFileSync('ejdict-hand-utf8-only-word.txt', 'utf-8')

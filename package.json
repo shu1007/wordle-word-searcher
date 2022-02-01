@@ -1,8 +1,10 @@
 {
     "name": "wordle-word-searcher",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "Search words for wordle in the dictionary",
+    "bin": {
+        "wordle-word-searcher": "bin/index.js"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -10,5 +12,6 @@
     "license": "MIT",
     "dependencies": {
         "readline-sync": "^1.4.10"
-    }
+    },
+    "homepage": "https://github.com/shu1007/wordle-word-searcher"
 }
