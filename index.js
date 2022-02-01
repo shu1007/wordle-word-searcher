@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { exit } = require('process')
 
 const data = fs.readFileSync('ejdict-hand-utf8-only-word.txt', 'utf-8')
 
@@ -33,10 +32,12 @@ while (true) {
 
     question(
         `Enter the yellow letters(${
-            chars.yellows != '' ? `previous: ${chars.yellows}` : 'e.g. abc'
+            chars.yellows != ''
+                ? `previous: ${chars.yellows}`
+                : 'e.g. a..../.b.c.'
         })> `,
         'yellows',
-        /^[a-z]{1,5}$/
+        /^[a-z\.]{5}(\/[a-z\.]{5})*$/
     )
 
     question(
@@ -49,12 +50,20 @@ while (true) {
 
     const greenPattern =
         !chars.greens || chars.greens == '.....' ? '' : `(?=${chars.greens})`
-    const yellowPatterns = chars.yellows.split('').map((w) => `(?=.*${w})`)
+    const yellowPatterns = chars.yellows.split('/').flatMap((w) => {
+        return w.split('').map((c, i) => {
+            if (c != '.') {
+                const base = '.....'.split('')
+                base[i] = c
+                return `(?!${base.join('')})`
+            }
+        })
+    })
     const blackPatterns = chars.blacks.split('').map((w) => `(?!.*${w})`)
     const pattern = new RegExp(
         `\\n${greenPattern}${yellowPatterns.join('')}${blackPatterns.join(
             ''
-        )}.....\\n`,
+        )}[a-z]{5}\\n`,
         'g'
     )
     console.log()

@@ -12,8 +12,9 @@ wordle の攻略を助けるツールです
         -   e.g. w....
     -   Enter the yellow letters
         -   黄色の文字を入力する
-        -   それぞれをそのまま続けて入力
-        -   e.g. abc
+        -   黄色の文字以外は.を入力
+        -   複数のパターンは/でつないで入力する
+        -   e.g. a..../.b.c.
     -   Enter the black letters
         -   黒の文字を入力する
         -   それぞれをそのまま続けて入力
