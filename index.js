@@ -50,16 +50,22 @@ while (true) {
 
     const greenPattern =
         !chars.greens || chars.greens == '.....' ? '' : `(?=${chars.greens})`
-    const yellowPatterns = chars.yellows.split('/').flatMap((w) => {
-        return w.split('').flatMap((c, i) => {
-            if (c != '.') {
-                const base = '.....'.split('')
-                base[i] = c
-                return [`(?=.*${c})`, `(?!${base.join('')})`]
-            }
-        })
-    })
-    const blackPatterns = chars.blacks.split('').map((w) => `(?!.*${w})`)
+    const yellowPatterns = [
+        ...new Set(
+            chars.yellows.split('/').flatMap((w) => {
+                return w.split('').flatMap((c, i) => {
+                    if (c != '.') {
+                        const base = '.....'.split('')
+                        base[i] = c
+                        return [`(?=.*${c})`, `(?!${base.join('')})`]
+                    }
+                })
+            })
+        ),
+    ]
+    const blackPatterns = [
+        ...new Set(chars.blacks.split('').map((w) => `(?!.*${w})`)),
+    ]
     const pattern = new RegExp(
         `\\n${greenPattern}${yellowPatterns.join('')}${blackPatterns.join(
             ''
