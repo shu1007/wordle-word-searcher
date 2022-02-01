@@ -9,35 +9,43 @@ const searchWord = (regexp) =>
 const readlineSync = require('readline-sync')
 const chars = { greens: '', yellows: '', blacks: '' }
 
+const question = (message, prop, regexp) => {
+    while (true) {
+        const input = readlineSync.question(message)
+        if (input && !regexp.test(input)) {
+            console.error('Invalid string.')
+            continue
+        }
+
+        if (input) chars[prop] = input
+        break
+    }
+}
+
 while (true) {
-    chars.greens = readlineSync.question(
+    question(
         `Enter the green letters(${
             chars.greens != '' ? `previous: ${chars.greens}` : 'e.g. w....'
-        })> `
+        })> `,
+        'greens',
+        /^[a-z\.]{5}$/
     )
-    if (chars.greens && !/^[a-z\.]{5}$/.test(chars.greens)) {
-        console.error('Invalid string.')
-        exit(1)
-    }
 
-    chars.yellows = readlineSync.question(
+    question(
         `Enter the yellow letters(${
             chars.yellows != '' ? `previous: ${chars.yellows}` : 'e.g. abc'
-        })> `
+        })> `,
+        'yellows',
+        /^[a-z]{1,5}$/
     )
-    if (chars.yellows && !/^[a-z]{1,5}$/.test(chars.yellows)) {
-        console.error('Invalid string.')
-        exit(1)
-    }
-    chars.blacks = readlineSync.question(
+
+    question(
         `Enter the black letters(${
             chars.blacks != '' ? `previous: ${chars.blacks}` : 'e.g. abc'
-        })> `
+        })> `,
+        'blacks',
+        /^[a-z]+$/
     )
-    if (chars.blacks && !/^[a-z]+$/.test(chars.blacks)) {
-        console.error('Invalid string.')
-        exit(1)
-    }
 
     const greenPattern =
         !chars.greens || chars.greens == '.....' ? '' : `(?=${chars.greens})`
