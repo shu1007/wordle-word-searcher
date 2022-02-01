@@ -3,7 +3,10 @@
 
 const fs = require('fs')
 
-const data = fs.readFileSync('ejdict-hand-utf8-only-word.txt', 'utf-8')
+const data = fs.readFileSync(
+    `${__dirname}/../ejdict-hand-utf8-only-word.txt`,
+    'utf-8'
+)
 
 const searchWord = (regexp) =>
     data.match(regexp)?.map((w) => w.substring(1, w.length - 1))
