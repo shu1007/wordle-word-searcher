@@ -1,6 +1,6 @@
 {
     "name": "wordle-word-searcher",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Search words for wordle in the dictionary",
     "bin": {
         "wordle-word-searcher": "bin/index.js"
