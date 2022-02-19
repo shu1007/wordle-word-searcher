@@ -13,5 +13,8 @@
     "dependencies": {
         "readline-sync": "^1.4.10"
     },
-    "homepage": "https://github.com/shu1007/wordle-word-searcher"
+    "homepage": "https://github.com/shu1007/wordle-word-searcher",
+    "keywords": [
+        "wordle"
+    ]
 }
