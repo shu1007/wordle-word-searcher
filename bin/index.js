@@ -56,26 +56,45 @@ while (true) {
 
     const greenPattern =
         !chars.greens || chars.greens == '.....' ? '' : `(?=${chars.greens})`
-    const yellowPatterns = [
-        ...new Set(
-            chars.yellows.split('/').flatMap((w) => {
-                return w.split('').flatMap((c, i) => {
-                    if (c != '.') {
-                        const base = '.....'.split('')
-                        base[i] = c
-                        return [`(?=.*${c})`, `(?!${base.join('')})`]
-                    }
-                })
+    const yellowPatternSet = new Set(
+        chars.yellows.split('/').flatMap((w) => {
+            return w.split('').flatMap((c, i) => {
+                if (c != '.') {
+                    const base = '.....'.split('')
+                    base[i] = c
+                    return [`(?=.*${c})`, `(?!${base.join('')})`]
+                }
             })
-        ),
-    ]
-    const blackPatterns = [
-        ...new Set(chars.blacks.split('').map((w) => `(?!.*${w})`)),
-    ]
+        })
+    )
+    const blackPattern = `(?=[^${chars.blacks
+        .split('')
+        .map((w) => {
+            let exists = false
+            const pos = []
+            for (let i = 0; i < 5; i++) {
+                if (chars.greens.charAt(i) != w) {
+                    pos.push(i)
+                } else {
+                    exists = true
+                }
+            }
+            if (exists) {
+                pos.forEach((p) => {
+                    const base = '.....'.split('')
+                    base[p] = w
+                    yellowPatternSet.add(`(?!${base.join('')})`)
+                })
+                return null
+            }
+            return w
+        })
+        .join('')}]{5})`
+
     const pattern = new RegExp(
-        `\\n${greenPattern}${yellowPatterns.join('')}${blackPatterns.join(
+        `\\n${greenPattern}${[...yellowPatternSet].join(
             ''
-        )}[a-z]{5}\\n`,
+        )}${blackPattern}[a-z]{5}\\n`,
         'g'
     )
     console.log()
